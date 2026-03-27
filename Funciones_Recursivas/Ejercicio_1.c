@@ -1,29 +1,27 @@
 #include <stdio.h>
 
+// Función recursiva que suma dos números enteros
 int sumaRecursiva(int a, int b) {
     int s;
 
-    printf("Entrando: f(%d, %d)\n", a, b);
-
-    if (b == 0) {
-        s = a;
-        printf("Caso base: retorno %d\n", s);
-    }
-    else {
-        s = sumaRecursiva(a, b - 1) + 1;
-        printf("Volviendo: f(%d, %d) = %d\n", a, b, s);
-    }
+    if (b == 0)
+        s = a;                     // caso base
+    else
+        s = sumaRecursiva(a, b - 1) + 1; // caso recursivo
 
     return s;
 }
 
-int main(){
+int main() {
+    int a, b;
 
-int resultado;
+    printf("Ingrese el primer numero: ");
+    scanf("%d", &a);
 
-resultado = sumaRecursiva(3, 5);
+    printf("Ingrese el segundo numero: ");
+    scanf("%d", &b);
 
-printf("Resultado final: %d\n", resultado);
+    printf("El resultado es: %d\n", sumaRecursiva(a, b));
 
-return 0;
+    return 0;
 }
