@@ -52,9 +52,9 @@ int main() {
     // =========================
     // 3. RESERVAR MEMORIA (malloc)
     // =========================
-    v1 = malloc(cont1 * sizeof(int));
-    v2 = malloc(cont2 * sizeof(int));
-    v3 = malloc(cont3 * sizeof(int));
+    v1 = (int*)malloc(cont1 * sizeof(int));
+    v2 = (int*)malloc(cont2 * sizeof(int));
+    v3 = (int*)malloc(cont3 * sizeof(int));
 
     if (v1 == NULL || v2 == NULL || v3 == NULL) {
         printf("Error de memoria\n");
@@ -69,13 +69,16 @@ int main() {
 
     for (int i = 0; i < n; i++) {
         if (dinamico[i] % 3 == 1) {
-            v1[j++] = dinamico[i];
+            v1[j] = dinamico[i];
+            j++;
         }
         else if (dinamico[i] % 3 == 2) {
-            v2[k++] = dinamico[i];
+            v2[k] = dinamico[i];
+            k++;
         }
         else {
-            v3[b++] = dinamico[i];
+            v3[b] = dinamico[i];
+            b++;
         }
     }
 
