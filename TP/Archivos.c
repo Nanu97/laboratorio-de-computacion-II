@@ -1,3 +1,7 @@
+//TRABAJO PRACTICO DE ARCHIVOS
+//DOCENTE: HENCEK, MONICA
+//AUTOR: RODRIGUEZ, NAHUEL DAMIAN
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,6 +29,11 @@ typedef struct videojuego{
 
 }videojuego;
 
+//--------------------------------------------------------------
+/*FUNCION PARA CREAR ARCHIVOS BINARIOS. SI EL ARCHIVO NO EXISTE,
+LO CREA*/
+//--------------------------------------------------------------
+
 void crearBinario(char nombreArchivo[]){
 
     FILE* archivo;
@@ -47,6 +56,10 @@ void crearBinario(char nombreArchivo[]){
 
     fclose(archivo);
     }
+    
+//-------------------------------------------------------    
+/*FUNCION PARA PASAR CARACTERES O STRINGS A MAYUSCULAS*/
+//-------------------------------------------------------
 
 void mayusculizar(char texto[]){
 
@@ -57,6 +70,10 @@ void mayusculizar(char texto[]){
         i++;
     }
 }
+
+//---------------------------------------------------------
+/*FUNCION PARA DAR DE ALTA UNA PLATAFORMA DE VIDEOJUEGOS*/
+//---------------------------------------------------------
 
 void altaPlataforma(){
 
@@ -147,6 +164,12 @@ void altaPlataforma(){
     printf("Plataforma guardada correctamente\n");
 }
 
+//----------------------------------------------------------------
+/*FUNCION PARA DAR DE BAJA LOGICA UNA PLATAFORMA DE VIDEOJUEGOS.
+EL CAMPO "ACTIVO" PASARA A SER 0 (CERO).
+PUEDE SER REACTIVADO MAS ADELANTE*/
+//----------------------------------------------------------------
+
 void bajaLogicaPlataforma(){
 
     FILE* archivo;
@@ -193,6 +216,10 @@ void bajaLogicaPlataforma(){
     fclose(archivo);
 }
 
+//------------------------------------------------------
+/*FUNCION PARA MOSTRAR UN LISTADO DE LAS PLATAFORMAS*/
+//------------------------------------------------------
+
 void listarPlataformas(){
 
     FILE* archivo;
@@ -210,6 +237,11 @@ void listarPlataformas(){
         }
         fclose(archivo);
 }
+
+//----------------------------------------------------------
+/*FUNCION PARA REACTIVAR (PONER CAMPO "ACTIVO" EN 1 (UNO)
+UNA PLATAFORMA DADA DE BAJA CON ANTERIORIDAD*/
+//----------------------------------------------------------
 
 void reactivarPlataforma(){
 
@@ -257,6 +289,11 @@ void reactivarPlataforma(){
     fclose(archivo);
 }
 
+//-------------------------------------------------------------
+/*FUNCION PARA LISTAR AQUELLAS PLATAFORMAS QUE ESTAN ACTIVAS,
+ES DECIR QUE POSEEN SU CAMPO "ACTIVO" EN 1 (UNO)*/
+//-------------------------------------------------------------
+
 void listarPlataformasActivas(){
 
     FILE* archivo;
@@ -276,6 +313,10 @@ void listarPlataformasActivas(){
         }
         fclose(archivo);
 }
+
+//---------------------------------------------------
+/*FUNCION PARA CALCULAR EL COSTO DE UN VIDEOJUEGO*/
+//---------------------------------------------------
 
 float precioCosto(){
 
@@ -303,6 +344,11 @@ float precioCosto(){
     return costo;
 }
 
+//---------------------------------------------------------------
+/*FUNCION PARA AGREGAR EL MARGEN DE GANANCIA QUE DESEA OBTENER
+EN BASE A UN DETERMINADO VIDEOJUEGO*/
+//---------------------------------------------------------------
+
 float margenPretendido(){
 
     float margen;
@@ -327,6 +373,11 @@ float margenPretendido(){
 
     return margen;
 }
+
+//--------------------------------------------------
+/*FUNCION PARA ALMACENAR EL STOCK DISPONIBLE DE UN
+DETERMINADO JUEGO*/
+//--------------------------------------------------
 
 int stock(){
 
@@ -353,6 +404,10 @@ int stock(){
     return st;
 }
 
+//----------------------------------------------------------------
+/*CALCULA EL VALOR TOTAL DEL STOCK DISPONIBLE DE UN VIDEOJUEGO*/
+//----------------------------------------------------------------
+
 float calculoStock(float costo, int st){
 
     float valorSt;
@@ -362,6 +417,11 @@ float calculoStock(float costo, int st){
     return valorSt;
 }
 
+//-------------------------------------------------------------
+/*FUNCION PARA DETERMINAR A CUANTO DEBE VENDER UN DETERMINADO
+VIDEOJUEGO PARA OBTENER EL MARGEN DE GANANCIA PRETENDIDO*/
+//-------------------------------------------------------------
+
 float precioVenta(float costo, float margen){
 
     float venta;
@@ -370,6 +430,10 @@ float precioVenta(float costo, float margen){
 
     return venta;
 }
+
+//------------------------------------------
+/*FUNCION PARA DAR DE ALTA UN VIDEOJUEGO*/
+//------------------------------------------
 
 void altaJuego(){
 
@@ -511,6 +575,11 @@ void altaJuego(){
 
 }
 
+//----------------------------------------------------------
+/*FUNCION PARA MOSTRAR UNA LISTA DE TODOS LOS VIDEOJUEGOS,
+YA SEA QUE ESTEN ACTIVOS O INACTIVOS (BAJA LOGICA)*/
+//----------------------------------------------------------
+
 void listarTodos(){
 
     FILE* archivoP;
@@ -550,6 +619,12 @@ void listarTodos(){
     }
     fclose(archivoP);
 }
+
+//--------------------------------------------------------
+/*FUNCION PARA LISTAR LOS VIDEOJUEGOS DE UNA DETERMINADA
+PLATAFORMA. SOLO APARECERAN AQUELLOS CUYO ESTADO SE
+ENCUENTRE ACTIVO*/
+//--------------------------------------------------------
 
 void listarPorPlataforma(){
 
@@ -611,6 +686,12 @@ void listarPorPlataforma(){
     }
 }
 
+//----------------------------------------------------
+/*FUNCION REPORTE DE ALERTA DE BAJO STOCK.
+SE ENLISTARAN AQUELLOS JUEGOS CUYO STOCK DISPONIBLE
+SEA MENOR A LA CANTIDAD DE 5*/
+//----------------------------------------------------
+
 void listarBajoStock(){
 
     FILE* archivoV;
@@ -649,6 +730,10 @@ void listarBajoStock(){
         printf("\nNo hay videojuegos con bajo stock\n");
     }
 }
+
+//----------------------------------
+/*MENU DE GESTION DE VIDEOJUEGOS*/
+//----------------------------------
 
 void listarVideojuegos(){
 
@@ -699,6 +784,11 @@ void listarVideojuegos(){
 
 }
 
+//-----------------------------------------------
+/*FUNCION PARA BUSCAR UN DETERMINADO VIDEOJUEGO
+EN BASE A SU NUMERO DE ID*/
+//-----------------------------------------------
+
 void buscarPorID(){
 
     FILE* archivo;
@@ -746,6 +836,10 @@ void buscarPorID(){
         printf("No existe un videojuego con ese ID\n");
     }
 }
+
+//---------------------------------------------------------
+/*FUNCION PARA BUSCAR UN VIDEOJUEGO EN BASE A SU NOMBRE*/
+//---------------------------------------------------------
 
 void buscarPorTitulo(){
 
@@ -796,6 +890,10 @@ void buscarPorTitulo(){
     }
 }
 
+//-----------------------------------
+/*MENU DE BUSQUEDA DE VIDEOJUEGOS*/
+//-----------------------------------
+
 void buscarVideojuego(){
 
     int op;
@@ -831,6 +929,11 @@ void buscarVideojuego(){
         }
     } while(op != 0);
 }
+
+//---------------------------------------------------
+/*FUNCION PARA MODIFICAR EL STOCK DE UN DETERMINADO
+VIDEOJUEGO*/
+//---------------------------------------------------
 
 void modificarStock(){
 
@@ -907,6 +1010,11 @@ void modificarStock(){
         printf("No existe un videojuego con ese titulo\n");
     }
 }
+
+//--------------------------------------------------------
+/*FUNCION PARA MODIFICAREL MARGEN DE GANANCIA DE UN JUEGO
+QUE SERA BUSCADO POR SU NUMERO DE ID*/
+//--------------------------------------------------------
 
 void modificarMargenID(){
 
@@ -995,6 +1103,12 @@ void modificarMargenID(){
         printf("No existe un videojuego con ese ID\n");
     }
 }
+
+//-------------------------------------------------------
+/*FUNCION PARA MODIFICAR EL MARGEN DE GANANCIA DE TODOS
+LOS VIDEOJUEGOS PERTENECIENTES A UNA DETERMINADA
+PLATAFORMA.*/
+//-------------------------------------------------------
 
 void modificarMargenPlataforma(){
 
@@ -1090,6 +1204,11 @@ void modificarMargenPlataforma(){
 
 }
 
+//-----------------------------------------
+/*MENU PARA MODIFICAR CAMPOS RELACIONADOS
+A LOS VIDEOJUEGOS*/
+//-----------------------------------------
+
 void modificar(){
 
     int op;
@@ -1138,6 +1257,11 @@ void modificar(){
     } while(op != 0);
 }
 
+//------------------------------------------------------
+/*FUNCION PARA DAR DE BAJA LOGICA UN DETERMINADO JUEGO
+QUE SERA BUSCADO POR SU NUMERO DE ID*/
+//------------------------------------------------------
+
 void bajaJuegoID(){
 
     FILE* archivo;
@@ -1172,7 +1296,7 @@ void bajaJuegoID(){
 
             printf("\nNombre del juego: %s\n", v.titulo);
 
-            printf("Esta seguro que desea eliminar el videojuego?\n");
+            printf("Esta seguro que desea dar de baja el videojuego?\n");
             printf("Presione S para confirmar // Presione cualquier otra tecla para cancelar\n");
 
             scanf(" %c", &confirmacion);
@@ -1203,6 +1327,11 @@ void bajaJuegoID(){
         printf("No existe un videojuego con ese ID\n");
     }
 }
+
+//-----------------------------------------------------
+/*FUNCION PARA DAR DE BAJA LOGICA UN DETERMINADO JUEGO
+QUE SERA BUSCADO POR SU NOMBRE*/
+//-----------------------------------------------------
 
 void bajaJuegoTitulo(){
 
@@ -1235,7 +1364,7 @@ void bajaJuegoTitulo(){
             }
 
             printf("\nNombre del juego: %s\n", v.titulo);
-            printf("Esta seguro que desea eliminar el videojuego?\n");
+            printf("Esta seguro que desea dar de baja el videojuego?\n");
             printf("Presione S para confirmar // Presione cualquier otra tecla para cancelar\n");
 
             scanf(" %c", &confirmacion);
@@ -1265,6 +1394,11 @@ void bajaJuegoTitulo(){
         printf("No existe un videojuego con ese nombre\n");
     }
 }
+
+//-------------------------------------------------------------
+/*ESTA FUNCION DARA DE BAJA UNA DETERMINADA PLATAFORMA Y TODOS
+LOS VIDEOJUEGOS QUE SE ENCUENTREN EN ELLA*/
+//-------------------------------------------------------------
 
 void bajaPlataformaCompleta(){
 
@@ -1353,6 +1487,10 @@ void bajaPlataformaCompleta(){
     printf("Plataforma y videojuegos dados de baja correctamente\n");
 }
 
+//------------------------------------------------------------
+/*MENU DESTINADO A LA BAJA LOGICA DE UN DETERMIINADO JUEGO*/
+//------------------------------------------------------------
+
 void bajaLogicaJuego(){
 
     int op;
@@ -1409,6 +1547,10 @@ void bajaLogicaJuego(){
     } while(op != 0);
 }
 
+//----------------------------------------------------------
+/*FUNCION PARA CREAR UN BACKUP DEL ARCHIVO DE VIDEOJUEGOS*/
+//----------------------------------------------------------
+
 void backup(){
 
     FILE* og;
@@ -1439,6 +1581,11 @@ void backup(){
     fclose(backup);
     printf("Backup realizado correctamente\n");
 }
+
+//-----------------------------------------------------------
+/*FUNCION PARA RESTAURAR EL ARCHIVO ORIGINAL DE VIDEOJUEGOS
+UTILIZANDO LOS DATOS ALMACENADOS EN EL BACKUP*/
+//-----------------------------------------------------------
 
 void restaurar(){
 
@@ -1472,6 +1619,11 @@ void restaurar(){
     printf("Restauracion completada con exito\n");
 }
 
+//---------------------------------------------------------------
+/*FUNCION PARA MOSTRAR UN LISTADO DE AQUELLOS VIDEOJUEGOS DADOS
+DE BAJA LOGICA (CAMPO "ACTIVO" EN 0 (CERO)*/
+//---------------------------------------------------------------
+
 int listarInactivos(){
 
     FILE* archivo;
@@ -1497,6 +1649,13 @@ int listarInactivos(){
     }
     return inactivos;
 }
+
+//---------------------------------------------------
+/*FUNCION PARA BORRAR DEFINITIVAMENTE UN VIDEOJUEGO
+DE LA BASE DE DATOS.
+ACLARACION: EL JUEGO EN CUESTION DEBERA HABER
+SIDO DADO DE BAJA LOGICA PREVIAMENTE*/
+//---------------------------------------------------
 
 void bajaFisicaJuego(){
 
@@ -1572,6 +1731,11 @@ void bajaFisicaJuego(){
     }
 }
 
+//------------------------------------------------------------
+/*FUNCION PARA MOSTRAR UNA LISTA DE AQUELLOS JUEGOS BORRADOS
+DE LA BASE DE DATOS. ES DECIR, DADOS DE BAJA FISICA*/
+//------------------------------------------------------------
+
 void listarBajas(){
 
     FILE* archivo;
@@ -1592,6 +1756,10 @@ void listarBajas(){
 
     fclose(archivo);
 }
+
+//----------------------------------
+/*MENU DE GESTION DE PLATAFORMAS*/
+//----------------------------------
 
 void controlPlataforma(){
 
@@ -1644,6 +1812,10 @@ void controlPlataforma(){
 
     } while (op != 0);
 }
+
+//----------------------------------
+/*MENU DE GESTION DE VIDEOJUEGOS*/
+//----------------------------------
 
 void menuVideojuegos(){
 
@@ -1718,6 +1890,10 @@ void menuVideojuegos(){
     } while (op != 'S');
 }
 
+//-----------------------------
+/*MENU PRINCIPAL DEL SISTEMA*/
+//-----------------------------
+
 void menuPrincipal(){
 
     int op;
@@ -1761,6 +1937,10 @@ void menuPrincipal(){
 
     } while (op != 0);
 }
+
+//---------------------
+/*PROGRAMA PRINCIPAL*/
+//---------------------
 
 int main(){
 
