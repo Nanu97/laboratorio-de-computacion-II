@@ -1,0 +1,437 @@
+import pygame
+import random
+
+pygame.init()
+pygame.mixer.init()
+# sonido_pop = pygame.mixer.Sound("pop.mp3")
+# sonido_cofre = pygame.mixer.Sound("chest_open.mp3")
+# sonido_derrota = pygame.mixer.Sound("perdiste.mp3")
+
+ancho = 800
+alto = 500
+ventana = pygame.display.set_mode((ancho, alto))
+pygame.display.set_caption("Cofre de la Cripta")
+
+cripta = pygame.image.load("crypt.jpg")
+
+ANCHO_IMAGEN = 250
+ALTO_IMAGEN = 200
+
+cofre_cerrado_original = pygame.image.load("cofreCerrado2.png").convert_alpha()
+cofre_cerrado = pygame.transform.scale(cofre_cerrado_original, (200, 150))
+cofre_cerrado.set_colorkey((245, 245, 245))
+
+cofre_original = pygame.image.load("cofreAbierto.png").convert_alpha()
+cofre_abierto = pygame.transform.scale(cofre_original, (200, 150))
+
+game_over_original = pygame.image.load("gameOver.png").convert_alpha()
+game_over = pygame.transform.scale(game_over_original, (ANCHO_IMAGEN, ALTO_IMAGEN))
+
+fuente = pygame.font.Font(None, 60)
+fuente2 = pygame.font.SysFont("Times New Roman", 40)
+
+# Constantes para los colores:
+
+ROJO = (200, 0, 0)
+VERDE = (0, 200, 0)
+AZUL = (0, 0, 200)
+AMARILLO = (200, 200, 0)
+VIOLETA = (95, 0, 200)
+BLANCO = (200, 200, 200)
+ROSA = (200, 150, 125)
+NARANJA = (200, 85, 0)
+CELESTE = (0, 136, 200)
+NEGRO = (0, 0, 0)
+BLANCO = (255, 255, 255)
+
+botonNuevaPartida = pygame.Rect(190, 220, 385, 60)
+botonSalir = pygame.Rect(250, 320, 280, 60)
+
+botonFacil = pygame.Rect(300, 170, 200, 50)
+botonMedio = pygame.Rect(300, 250, 200, 50)
+botonDificil = pygame.Rect(300, 330, 200, 50)
+
+botonConfirmar = pygame.Rect(620, 320, 140, 40)
+botonBorrar = pygame.Rect(620, 370, 140, 40)
+
+pelotaRoja = pygame.Rect(0, 425, 50, 50)
+pelotaVerde = pygame.Rect(0, 425, 50, 50)
+pelotaAzul = pygame.Rect(0, 425, 50, 50)
+pelotaAmarilla = pygame.Rect(0, 425, 50, 50)
+pelotaVioleta = pygame.Rect(0, 425, 50, 50)
+pelotaBlanca = pygame.Rect(0, 425, 50, 50)
+pelotaRosa = pygame.Rect(0, 425, 50, 50)
+pelotaNaranja = pygame.Rect(0, 425, 50, 50)
+pelotaCeleste = pygame.Rect(0, 425, 50, 50)
+
+pantalla = "menu"
+nivel = ""
+clave = []
+seleccion = []
+historial = []
+
+aciertos = 0
+intentos = 0
+mensaje = ""
+juegoTerminado = False
+
+# Main del videojuego
+
+run = True
+while run:
+
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+            run = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+# Evento para menú
+
+            if pantalla == "menu":
+                if botonNuevaPartida.collidepoint(event.pos):
+                    pantalla = "dificultad"
+                elif botonSalir.collidepoint(event.pos):
+                    run = False
+
+# Evento para elegir dificultad
+
+            elif pantalla == "dificultad":
+                if botonFacil.collidepoint(event.pos):
+                    clave = [random.randint(1, 3), random.randint(1, 3), random.randint(1, 3)]
+                    nivel = "facil"
+                    pantalla = "juego"
+                    
+                    pelotaRoja.x, pelotaVerde.x, pelotaAzul.x = 295, 375, 455
+                    pelotaAmarilla.x = pelotaVioleta.x = pelotaBlanca.x = -100
+                    pelotaRosa.x = pelotaNaranja.x = pelotaCeleste.x = -100
+                    
+                    seleccion.clear()
+                    historial.clear()
+                    intentos = 0
+                    aciertos = 0
+                    mensaje = ""
+                    juegoTerminado = False
+                    print("Clave Fácil creada:", clave)
+
+                elif botonMedio.collidepoint(event.pos):
+                    clave = [random.randint(1, 6), random.randint(1, 6), random.randint(1, 6)]
+                    nivel = "medio"
+                    pantalla = "juego"
+                    
+                    pelotaRoja.x, pelotaVerde.x, pelotaAzul.x = 195, 265, 335
+                    pelotaAmarilla.x, pelotaVioleta.x, pelotaBlanca.x = 405, 475, 545
+                    pelotaRosa.x = pelotaNaranja.x = pelotaCeleste.x = -100
+                    
+                    seleccion.clear()
+                    historial.clear()
+                    intentos = 0
+                    aciertos = 0
+                    mensaje = ""
+                    juegoTerminado = False
+                    print("Clave Medio creada:", clave)
+
+                elif botonDificil.collidepoint(event.pos):
+                    clave = [random.randint(1, 9), random.randint(1, 9), random.randint(1, 9)]
+                    nivel = "dificil"
+                    pantalla = "juego"
+                    
+                    pelotaRoja.x, pelotaVerde.x, pelotaAzul.x = 130, 190, 250
+                    pelotaAmarilla.x, pelotaVioleta.x, pelotaBlanca.x = 310, 370, 430
+                    pelotaRosa.x, pelotaNaranja.x, pelotaCeleste.x = 490, 550, 610
+                    
+                    seleccion.clear()
+                    historial.clear()
+                    intentos = 0
+                    aciertos = 0
+                    mensaje = ""
+                    juegoTerminado = False
+                    print("Clave Difícil creada:", clave)
+
+# Eventos de juego
+
+            elif pantalla == "juego":
+                if len(seleccion) < 3 and not juegoTerminado:
+                    if pelotaRoja.collidepoint(event.pos):
+                        seleccion.append(1)
+                    elif pelotaVerde.collidepoint(event.pos):
+                        seleccion.append(2)
+                    elif pelotaAzul.collidepoint(event.pos):
+                        seleccion.append(3)
+                    elif pelotaAmarilla.collidepoint(event.pos) and nivel != "facil":
+                        seleccion.append(4)
+                    elif pelotaVioleta.collidepoint(event.pos) and nivel != "facil":
+                        seleccion.append(5)
+                    elif pelotaBlanca.collidepoint(event.pos) and nivel != "facil":
+                        seleccion.append(6)
+                    elif pelotaRosa.collidepoint(event.pos) and nivel == "dificil":
+                        seleccion.append(7)
+                    elif pelotaNaranja.collidepoint(event.pos) and nivel == "dificil":
+                        seleccion.append(8)
+                    elif pelotaCeleste.collidepoint(event.pos) and nivel == "dificil":
+                        seleccion.append(9)
+                    
+                   # sonido_pop.play()
+                    print(seleccion)
+
+                if botonConfirmar.collidepoint(event.pos) and not juegoTerminado:
+                    if len(seleccion) == 3 and len(clave) == 3:
+                        intentos += 1
+                        aciertos = 0
+
+                        for i in range(3):
+                            if seleccion[i] == clave[i]:
+                                aciertos += 1
+
+                        if aciertos == 3:
+                            mensaje = "COFRE ABIERTO"
+                           # sonido_cofre.play()
+                            juegoTerminado = True
+                        elif intentos == 8:
+                            mensaje = "FALLASTE"
+                           # sonido_derrota.play()
+                            juegoTerminado = True
+
+                        historial.append((seleccion.copy(), aciertos))
+                        seleccion.clear()
+
+                if botonBorrar.collidepoint(event.pos):
+                    seleccion.clear()
+
+# Seccion de gráficos
+
+    if pantalla == "menu":
+        ventana.fill((NEGRO))
+    else:
+        ventana.blit(cripta,(0, 0))
+
+# Pantalla del menu principal
+
+    if pantalla == "menu":
+        pygame.draw.rect(ventana, (120, 120, 120), botonNuevaPartida)
+        pygame.draw.rect(ventana, (255, 255, 255), botonNuevaPartida, 3)
+        pygame.draw.rect(ventana, (80, 80, 80), botonNuevaPartida, 2)
+        pygame.draw.rect(ventana, (100, 100, 100), botonSalir)
+        pygame.draw.rect(ventana, (255, 255, 255), botonSalir, 3)
+        pygame.draw.rect(ventana, (80, 80, 80), botonSalir, 2)
+
+        txtNueva = fuente.render("NUEVA PARTIDA", True, (0, 0, 0))
+        txtSalir = fuente.render("SALIR", True, (0, 0, 0))
+        txtObjetivo = fuente2.render("OBJETIVO:", True, (BLANCO))
+        txtObjA = fuente2.render("Te encontraste un cofre en una cripta", True, (BLANCO))
+        txtObjB = fuente2.render("Para abrirlo, debes adivinar la clave secreta", True, (BLANCO))
+        txtObjC = fuente2.render("de 3 dígitos, en 8 intentos", True, (BLANCO))
+
+        ventana.blit(txtNueva, (210, 230))
+        ventana.blit(txtSalir, (330, 330))
+        ventana.blit(txtObjetivo, (280, 10))
+        ventana.blit(txtObjA, (100, 55))
+        ventana.blit(txtObjB, (50, 95))
+        ventana.blit(txtObjC, (200, 135))
+
+# Pantalla de seleccion de dificultad
+
+    elif pantalla == "dificultad": 
+        textoDificultad = fuente.render("ELIJA DIFICULTAD", True, (255, 255, 255))
+        ventana.blit(textoDificultad, (210, 120))
+
+        pygame.draw.rect(ventana, (0, 200, 0), botonFacil)
+        pygame.draw.rect(ventana, (200, 200, 0), botonMedio)
+        pygame.draw.rect(ventana, (200, 0, 0), botonDificil)
+
+        textoFacil = fuente.render("FACIL", True, (0, 0, 0))
+        textoMedio = fuente.render("MEDIO", True, (0, 0, 0))
+        textoDificil = fuente.render("DIFICIL", True, (0, 0, 0))
+
+        ventana.blit(textoFacil, (340, 175))
+        ventana.blit(textoMedio, (335, 255))
+        ventana.blit(textoDificil, (330, 335))
+    
+# Pantalla de juego
+
+    elif pantalla == "juego":
+
+        if nivel == "facil":
+            mouse = pygame.mouse.get_pos()
+
+            pelotas = [
+                ((320, 450), ROJO),
+                ((400, 450), VERDE),
+                ((480, 450), AZUL)
+            ]
+
+            for pos, color in pelotas:
+                dist = ((mouse[0] - pos[0]) ** 2 + (mouse[1] - pos[1]) ** 2) ** 0.5
+
+                radio = 32 if dist < 25 else 25
+
+                pygame.draw.circle(ventana, color, pos, radio)
+            
+        elif nivel == "medio":
+
+            mouse = pygame.mouse.get_pos()
+
+            pelotas = [
+                ((220, 450), ROJO),
+                ((290, 450), VERDE),
+                ((360, 450), AZUL),
+                ((430, 450), AMARILLO),
+                ((500, 450), VIOLETA),
+                ((570, 450), BLANCO)
+            ]
+
+            for pos, color in pelotas:
+                
+                dx = mouse[0] - pos[0]
+                dy = mouse[1] - pos[1]
+                dist = (dx * dx + dy * dy) ** 0.5
+                radio = 32 if dist < 25 else 25
+
+                pygame.draw.circle(ventana, color, pos, radio)
+
+        elif nivel == "dificil":
+
+            mouse = pygame.mouse.get_pos()
+
+            pelotas = [
+                ((155, 450), ROJO),
+                ((215, 450), VERDE),
+                ((275, 450), AZUL),
+                ((335, 450), AMARILLO),
+                ((395, 450), VIOLETA),
+                ((455, 450), BLANCO),
+                ((515, 450), ROSA),
+                ((575, 450), NARANJA),
+                ((635, 450), CELESTE)
+            ]
+
+            for pos, color in pelotas:
+
+                dx = mouse[0] - pos[0]
+                dy = mouse[1] - pos[1]
+                dist = (dx * dx + dy * dy) ** 0.5
+
+                radio = 32 if dist < 25 else 25
+
+                pygame.draw.circle(ventana, color, pos, radio)
+
+# Botones de los costados
+
+        pygame.draw.rect(ventana, (180, 180, 180), botonBorrar)
+        textoBorrar = pygame.font.Font(None, 30).render("BORRAR", True, (0, 0, 0))
+        ventana.blit(textoBorrar, (645, 380))
+
+        pygame.draw.rect(ventana, (180, 180, 180), botonConfirmar)
+
+        textoConfirmar = pygame.font.Font(None, 30).render("CONFIRMAR", True, (0, 0, 0))
+        ventana.blit(textoConfirmar, (632, 330))
+
+        textoAciertos = pygame.font.Font(None, 40).render(f"Aciertos: {aciertos}", True, (255, 255, 255))
+        ventana.blit(textoAciertos, (20, 20))
+
+        textoIntentos = pygame.font.Font(None, 40).render(f"Intentos: {intentos}/8", True, (255, 255, 255))
+        ventana.blit(textoIntentos, (20, 60))
+
+        textoMensaje = pygame.font.Font(None, 10).render(mensaje, True, (255, 255, 255))
+        ventana.blit(textoMensaje, (365, 250))
+
+        for i in range(3):
+            x = 330 + (i * 70)
+            pygame.draw.circle(ventana, (255, 255, 255), (x, 100), 25, 2)
+
+# Eleccion del usuario mostrada en pantalla
+
+        for i in range(len(seleccion)):
+            x = 330 + (i * 70)
+            color_actual = seleccion[i]
+            if color_actual == 1:
+                pygame.draw.circle(ventana, ROJO, (x, 100), 25)
+            elif color_actual == 2:
+                pygame.draw.circle(ventana, VERDE, (x, 100), 25)
+            elif color_actual == 3:
+                pygame.draw.circle(ventana, AZUL, (x, 100), 25)
+            elif color_actual == 4:
+                pygame.draw.circle(ventana, AMARILLO, (x, 100), 25)
+            elif color_actual == 5:
+                pygame.draw.circle(ventana, VIOLETA, (x, 100), 25)
+            elif color_actual == 6:
+                pygame.draw.circle(ventana, BLANCO, (x, 100), 25)
+            elif color_actual == 7:
+                pygame.draw.circle(ventana, ROSA, (x, 100), 25)
+            elif color_actual == 8:
+                pygame.draw.circle(ventana, NARANJA, (x, 100), 25)
+            elif color_actual == 9:
+                pygame.draw.circle(ventana, CELESTE, (x, 100), 25)
+
+# Bucle para mostrar el historial de intentos en pantalla
+
+        y = 100
+
+        for i in range(len(historial)):
+
+            intento, aciertos_intento = historial[i]
+
+            x = 20
+
+            texto_num = pygame.font.Font(None, 30).render(str(i + 1) + ":", True, (255, 255, 255))
+
+            ventana.blit(texto_num, (x, y))
+            x += 30
+
+            for color in intento:
+                if color == 1:
+                    pygame.draw.circle(ventana, ROJO, (x, y + 10), 10)
+                elif color == 2:
+                    pygame.draw.circle(ventana, VERDE, (x, y + 10), 10)
+                elif color == 3:
+                    pygame.draw.circle(ventana, AZUL, (x, y + 10), 10)
+                elif color == 4:
+                    pygame.draw.circle(ventana, AMARILLO, (x, y + 10), 10)
+                elif color == 5:
+                    pygame.draw.circle(ventana, VIOLETA, (x, y + 10), 10)
+                elif color == 6:
+                    pygame.draw.circle(ventana, BLANCO, (x, y + 10), 10)
+                elif color == 7:
+                    pygame.draw.circle(ventana, ROSA, (x, y + 10), 10)
+                elif color == 8:
+                    pygame.draw.circle(ventana, NARANJA, (x, y + 10), 10)
+                elif color == 9:
+                    pygame.draw.circle(ventana, CELESTE, (x, y + 10), 10)
+
+                x += 25
+
+            if aciertos_intento == 0:
+                color_texto = (200, 0, 0)        # rojo
+            elif aciertos_intento == 1:
+                color_texto = (255, 150, 0)      # naranja
+            elif aciertos_intento == 2:
+                color_texto = (200, 200, 0)      # amarillo
+            elif aciertos_intento == 3:
+                color_texto = (0, 200, 0)        # verde
+
+            texto_resultado = pygame.font.Font(None, 28).render(f"{aciertos_intento}/3", True, color_texto)
+
+            ventana.blit(texto_resultado, (x + 10, y))
+
+            y += 30
+
+# Bandera de estados: Victoria o derrota
+
+        if juegoTerminado:
+            if mensaje == "COFRE ABIERTO":
+                ventana.blit(cofre_abierto, (290, 175))
+            
+            elif mensaje == "FALLASTE":
+                ventana.blit(game_over, (270, 160))
+
+                fuente_revelar = pygame.font.Font(None, 30)
+                pygame.draw.rect(ventana, (BLANCO), (285, 330, 230, 40))
+                txt_revelar = fuente_revelar.render(f"La clave era: {clave}", True, (NEGRO))
+                ventana.blit(txt_revelar, (298, 340))
+        else:
+            ventana.blit(cofre_cerrado, (300, 190))
+
+    pygame.display.flip()
+
+pygame.quit()
