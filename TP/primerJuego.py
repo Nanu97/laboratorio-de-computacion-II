@@ -19,19 +19,20 @@ pygame.display.set_caption("Cofre de la Cripta")
 cripta = pygame.image.load("crypt.jpg")
 
 # Forzamos tamaños idénticos para evitar saltos visuales molestos
-ANCHO_COFRE = 250
-ALTO_COFRE = 200
+ANCHO_IMAGEN = 250
+ALTO_IMAGEN = 200
 
 cofre_cerrado_original = pygame.image.load("cofreCerrado2.jpg").convert_alpha()
-cofre_cerrado = pygame.transform.scale(cofre_cerrado_original, (ANCHO_COFRE, ALTO_COFRE))
+cofre_cerrado = pygame.transform.scale(cofre_cerrado_original, (ANCHO_IMAGEN, ALTO_IMAGEN))
 
 cofre_original = pygame.image.load("cofreAbierto.png").convert_alpha()
-cofre_abierto = pygame.transform.scale(cofre_original, (ANCHO_COFRE, ALTO_COFRE))
+cofre_abierto = pygame.transform.scale(cofre_original, (ANCHO_IMAGEN, ALTO_IMAGEN))
 
 game_over_original = pygame.image.load("gameOver.jpg").convert_alpha()
-game_over = pygame.transform.scale(game_over_original, (ANCHO_COFRE, ALTO_COFRE))
+game_over = pygame.transform.scale(game_over_original, (ANCHO_IMAGEN, ALTO_IMAGEN))
 
 fuente = pygame.font.Font(None, 60)
+fuente2 = pygame.font.SysFont("Times New Roman", 40)
 
 # ==========================================
 # 2. DEFINICIÓN DE COLORES
@@ -42,9 +43,11 @@ AZUL = (0, 0, 200)
 AMARILLO = (200, 200, 0)
 VIOLETA = (95, 0, 200)
 BLANCO = (200, 200, 200)
-ROSA = (255, 105, 180)
-NARANJA = (255, 140, 0)
-CELESTE = (0, 191, 255)
+ROSA = (200, 150, 125)
+NARANJA = (200, 85, 0)
+CELESTE = (0, 136, 200)
+NEGRO = (0, 0, 0)
+BLANCO = (255, 255, 255)
 
 # ==========================================
 # 3. COMPONENTES DE LA INTERFAZ (BOTONES/RECTS)
@@ -57,7 +60,7 @@ botonMedio = pygame.Rect(300, 250, 200, 50)
 botonDificil = pygame.Rect(300, 330, 200, 50)
 
 # Botones laterales reubicados en Y para no pisar la pelotita celeste
-botonProbar = pygame.Rect(620, 320, 140, 40)
+botonConfirmar = pygame.Rect(620, 320, 140, 40)
 botonBorrar = pygame.Rect(620, 370, 140, 40)
 
 # Áreas de colisión dinámicas para las Esferas de Colores
@@ -184,7 +187,7 @@ while run:
                     print(seleccion)
 
                 # Botón Confirmar Combinación
-                if botonProbar.collidepoint(event.pos) and not juegoTerminado:
+                if botonConfirmar.collidepoint(event.pos) and not juegoTerminado:
                     if len(seleccion) == 3 and len(clave) == 3:
                         intentos += 1
                         aciertos = 0
@@ -212,7 +215,10 @@ while run:
     # --------------------------------------
     # B. DIBUJO Y RENDERIZADO (GRAFICOS)
     # --------------------------------------
-    ventana.blit(cripta, (0, 0))
+    if pantalla == "menu":
+        ventana.fill((NEGRO))
+    else:
+        ventana.blit(cripta,(0, 0))
 
     # Renderizado: Menú Principal
     if pantalla == "menu":
@@ -221,14 +227,16 @@ while run:
 
         txtNueva = fuente.render("NUEVA PARTIDA", True, (0, 0, 0))
         txtSalir = fuente.render("SALIR", True, (0, 0, 0))
+        txtObjetivo = fuente2.render("OBJETIVO:", True, (BLANCO))
 
         ventana.blit(txtNueva, (210, 230))
         ventana.blit(txtSalir, (330, 330))
+        ventana.blit(txtObjetivo, (280, 10))
 
     # Renderizado: Selección de Dificultad
     elif pantalla == "dificultad": 
         textoDificultad = fuente.render("ELIJA DIFICULTAD", True, (255, 255, 255))
-        ventana.blit(textoDificultad, (180, 80))
+        ventana.blit(textoDificultad, (210, 120))
 
         pygame.draw.rect(ventana, (0, 200, 0), botonFacil)
         pygame.draw.rect(ventana, (200, 200, 0), botonMedio)
@@ -248,34 +256,70 @@ while run:
         # Dibujar esferas inferiores dinámicamente según el nivel
         if nivel == "facil":
             pygame.draw.circle(ventana, ROJO, (320, 450), 25)
+            texto = pygame.font.Font(None, 30).render("1", True, NEGRO)
+            ventana.blit(texto, (314, 440))
             pygame.draw.circle(ventana, VERDE, (400, 450), 25)
+            texto = pygame.font.Font(None, 30).render("2", True, NEGRO)
+            ventana.blit(texto, (394, 440))
             pygame.draw.circle(ventana, AZUL, (480, 450), 25)
+            texto = pygame.font.Font(None, 30).render("3", True, NEGRO)
+            ventana.blit(texto, (474, 440))
             
         elif nivel == "medio":
             pygame.draw.circle(ventana, ROJO, (220, 450), 25)
+            texto = pygame.font.Font(None, 30).render("1", True, NEGRO)
+            ventana.blit(texto, (214, 440))
             pygame.draw.circle(ventana, VERDE, (290, 450), 25)
+            texto = pygame.font.Font(None, 30).render("2", True, NEGRO)
+            ventana.blit(texto, (284, 440))
             pygame.draw.circle(ventana, AZUL, (360, 450), 25)
+            texto = pygame.font.Font(None, 30).render("3", True, NEGRO)
+            ventana.blit(texto, (354, 440))
             pygame.draw.circle(ventana, AMARILLO, (430, 450), 25)
+            texto = pygame.font.Font(None, 30).render("4", True, NEGRO)
+            ventana.blit(texto, (424, 440))
             pygame.draw.circle(ventana, VIOLETA, (500, 450), 25)
+            texto = pygame.font.Font(None, 30).render("5", True, NEGRO)
+            ventana.blit(texto, (494, 440))
             pygame.draw.circle(ventana, BLANCO, (570, 450), 25)
+            texto = pygame.font.Font(None, 30).render("6", True, NEGRO)
+            ventana.blit(texto, (564, 440))
 
         elif nivel == "dificil":
             pygame.draw.circle(ventana, ROJO, (155, 450), 25)
+            texto = pygame.font.Font(None, 30).render("1", True, NEGRO)
+            ventana.blit(texto, (149, 440))
             pygame.draw.circle(ventana, VERDE, (215, 450), 25)
+            texto = pygame.font.Font(None, 30).render("2", True, NEGRO)
+            ventana.blit(texto, (209, 440))
             pygame.draw.circle(ventana, AZUL, (275, 450), 25)
+            texto = pygame.font.Font(None, 30).render("3", True, NEGRO)
+            ventana.blit(texto, (269, 440))
             pygame.draw.circle(ventana, AMARILLO, (335, 450), 25)
+            texto = pygame.font.Font(None, 30).render("4", True, NEGRO)
+            ventana.blit(texto, (329, 440))
             pygame.draw.circle(ventana, VIOLETA, (395, 450), 25)
+            texto = pygame.font.Font(None, 30).render("5", True, NEGRO)
+            ventana.blit(texto, (389, 440))
             pygame.draw.circle(ventana, BLANCO, (455, 450), 25)
+            texto = pygame.font.Font(None, 30).render("6", True, NEGRO)
+            ventana.blit(texto, (449, 440))
             pygame.draw.circle(ventana, ROSA, (515, 450), 25)
+            texto = pygame.font.Font(None, 30).render("7", True, NEGRO)
+            ventana.blit(texto, (509, 440))
             pygame.draw.circle(ventana, NARANJA, (575, 450), 25)
+            texto = pygame.font.Font(None, 30).render("8", True, NEGRO)
+            ventana.blit(texto, (569, 440))
             pygame.draw.circle(ventana, CELESTE, (635, 450), 25)
+            texto = pygame.font.Font(None, 30).render("9", True, NEGRO)
+            ventana.blit(texto, (629, 440))
 
         # Dibujar botones de acción lateral (Subidos y Ajustados)
         pygame.draw.rect(ventana, (180, 180, 180), botonBorrar)
         textoBorrar = pygame.font.Font(None, 30).render("BORRAR", True, (0, 0, 0))
         ventana.blit(textoBorrar, (645, 380))
 
-        pygame.draw.rect(ventana, (180, 180, 180), botonProbar)
+        pygame.draw.rect(ventana, (180, 180, 180), botonConfirmar)
         # Cambiado a "CONFIRMAR" y centrado moviendo la X a 632
         textoConfirmar = pygame.font.Font(None, 30).render("CONFIRMAR", True, (0, 0, 0))
         ventana.blit(textoConfirmar, (632, 330))
@@ -290,19 +334,33 @@ while run:
         textoMensaje = pygame.font.Font(None, 10).render(mensaje, True, (255, 255, 255))
         ventana.blit(textoMensaje, (365, 250))
 
+        # Espacios vacíos para la combinación actual
+        for i in range(3):
+            x = 330 + (i * 70)
+            pygame.draw.circle(ventana, (255, 255, 255), (x, 100), 25, 2)
+
         # Dibujar combinación actual que el usuario está armando
         for i in range(len(seleccion)):
-            x = 250 + (i * 70)
+            x = 330 + (i * 70)
             color_actual = seleccion[i]
-            if color_actual == 1: pygame.draw.circle(ventana, ROJO, (x, 100), 25)
-            elif color_actual == 2: pygame.draw.circle(ventana, VERDE, (x, 100), 25)
-            elif color_actual == 3: pygame.draw.circle(ventana, AZUL, (x, 100), 25)
-            elif color_actual == 4: pygame.draw.circle(ventana, AMARILLO, (x, 100), 25)
-            elif color_actual == 5: pygame.draw.circle(ventana, VIOLETA, (x, 100), 25)
-            elif color_actual == 6: pygame.draw.circle(ventana, BLANCO, (x, 100), 25)
-            elif color_actual == 7: pygame.draw.circle(ventana, ROSA, (x, 100), 25)
-            elif color_actual == 8: pygame.draw.circle(ventana, NARANJA, (x, 100), 25)
-            elif color_actual == 9: pygame.draw.circle(ventana, CELESTE, (x, 100), 25)
+            if color_actual == 1:
+                pygame.draw.circle(ventana, ROJO, (x, 100), 25)
+            elif color_actual == 2:
+                pygame.draw.circle(ventana, VERDE, (x, 100), 25)
+            elif color_actual == 3:
+                pygame.draw.circle(ventana, AZUL, (x, 100), 25)
+            elif color_actual == 4:
+                pygame.draw.circle(ventana, AMARILLO, (x, 100), 25)
+            elif color_actual == 5:
+                pygame.draw.circle(ventana, VIOLETA, (x, 100), 25)
+            elif color_actual == 6:
+                pygame.draw.circle(ventana, BLANCO, (x, 100), 25)
+            elif color_actual == 7:
+                pygame.draw.circle(ventana, ROSA, (x, 100), 25)
+            elif color_actual == 8:
+                pygame.draw.circle(ventana, NARANJA, (x, 100), 25)
+            elif color_actual == 9:
+                pygame.draw.circle(ventana, CELESTE, (x, 100), 25)
 
         # Dibujar el historial de intentos anteriores
         y = 100
@@ -313,15 +371,24 @@ while run:
             x += 30
 
             for color in historial[i]:
-                if color == 1: pygame.draw.circle(ventana, ROJO, (x, y+10), 10)
-                elif color == 2: pygame.draw.circle(ventana, VERDE, (x, y+10), 10)
-                elif color == 3: pygame.draw.circle(ventana, AZUL, (x, y+10), 10)
-                elif color == 4: pygame.draw.circle(ventana, AMARILLO, (x, y+10), 10)
-                elif color == 5: pygame.draw.circle(ventana, VIOLETA, (x, y+10), 10)
-                elif color == 6: pygame.draw.circle(ventana, BLANCO, (x, y+10), 10)
-                elif color == 7: pygame.draw.circle(ventana, ROSA, (x, y+10), 10)
-                elif color == 8: pygame.draw.circle(ventana, NARANJA, (x, y+10), 10)
-                elif color == 9: pygame.draw.circle(ventana, CELESTE, (x, y+10), 10)
+                if color == 1:
+                    pygame.draw.circle(ventana, ROJO, (x, y+10), 10)
+                elif color == 2:
+                    pygame.draw.circle(ventana, VERDE, (x, y+10), 10)
+                elif color == 3:
+                    pygame.draw.circle(ventana, AZUL, (x, y+10), 10)
+                elif color == 4:
+                    pygame.draw.circle(ventana, AMARILLO, (x, y+10), 10)
+                elif color == 5:
+                    pygame.draw.circle(ventana, VIOLETA, (x, y+10), 10)
+                elif color == 6:
+                    pygame.draw.circle(ventana, BLANCO, (x, y+10), 10)
+                elif color == 7:
+                    pygame.draw.circle(ventana, ROSA, (x, y+10), 10)
+                elif color == 8:
+                    pygame.draw.circle(ventana, NARANJA, (x, y+10), 10)
+                elif color == 9:
+                    pygame.draw.circle(ventana, CELESTE, (x, y+10), 10)
                 x += 25
             y += 30
 
